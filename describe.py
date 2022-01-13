@@ -1,7 +1,6 @@
 import sys
 import numpy as np
 import pandas as pd
-import math
 
 
 def mean(x):
@@ -11,7 +10,6 @@ def median(x):
     n = len(x)
     s = sorted(x)
     return (s[n//2-1]/2.0+s[n//2]/2.0, s[n//2])[n % 2] if n else None
-samples = sorted([28, 12, 8, 27, 16, 31, 14, 13, 19, 1, 1, 22, 13])
 
 def median(x):
     x.sort()
@@ -55,7 +53,17 @@ def max_(x):
             max_ = elem
     return max_
 
+def get_numeric_cols(df):
+    numeric_cols = []
+    for col_name in df.columns:
+        try:
+            float(df[col_name][0])
+            numeric_cols.append(col_name)
+        except ValueError:
+            continue
+    return numeric_cols
 
+# check arg
 if len(sys.argv) != 2:
     print('usage: python <data_set.csv>')
     sys.exit()
@@ -63,14 +71,18 @@ if sys.argv[1].endswith('.csv') is False:
     print('usage: python <data_set.csv>')
     sys.exit()
 
+# read file
 df = pd.read_csv(sys.argv[1])
 
-allFeatures = []
+
 # remove lines where a column is nan
-for str_ in ['Arithmancy','Astronomy','Herbology','Defense Against the Dark Arts','Divination','Muggle Studies','Ancient Runes','History of Magic','Transfiguration','Potions','Care of Magical Creatures','Charms','Flying']:
+num_cols = get_numeric_cols(df)
+for str_ in num_cols:
     df = df[df[str_].notna()]
+
 # get stats unsing numpy
-for str_ in ['Arithmancy','Astronomy','Herbology','Defense Against the Dark Arts','Divination','Muggle Studies','Ancient Runes','History of Magic','Transfiguration','Potions','Care of Magical Creatures','Charms','Flying']:
+allFeatures = []
+for str_ in num_cols:
     featureXX = []
     getMyData = df[str_]
     getMyData = list(getMyData)
