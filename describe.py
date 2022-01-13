@@ -61,7 +61,7 @@ def get_numeric_cols(df):
             numeric_cols.append(col_name)
         except ValueError:
             continue
-    return numeric_cols
+    return numeric_cols[1:]
 
 # check arg
 if len(sys.argv) != 2:
