@@ -16,6 +16,7 @@ def get_numeric_cols(df):
 df = pd.read_csv('dataset_train.csv')
 num_cols = get_numeric_cols(df)
 
+# remove unusable cols, add bac
 num_cols.remove('Defense Against the Dark Arts') # same as Astronomy
 num_cols.remove('Care of Magical Creatures') # too homogenous
 num_cols.remove('Arithmancy') # too homogenous
