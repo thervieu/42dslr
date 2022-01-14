@@ -51,7 +51,6 @@ logreg3.fit_(ds3[0], ds3[2])
 print('log_reg: {:10} trained'.format('Slytherin'))
 
 rights = 0.0
-wrongs = 0.0
 yPred0 = logreg0.predict_(ds0[1])
 yPred1 = logreg1.predict_(ds1[1])
 yPred2 = logreg2.predict_(ds2[1])
@@ -61,10 +60,8 @@ yPredTotal = []
 for i in range(len(yPred0)):
     if np.argmax([yPred0[i], yPred1[i], yPred2[i], yPred3[i]]) == houses.index(ds[3][i][0]):
         rights += 1.0
-    else:
-        wrongs += 1.0
     yPredTotal.append(np.argmax([yPred0[i], yPred1[i], yPred2[i], yPred3[i]]))
     
-print('%% of right answer = ', rights / (rights + wrongs))
+print('percentage of right answer = ', rights / len(yPred0))
 
 plt.show()
