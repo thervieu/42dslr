@@ -17,12 +17,16 @@ def percentile(x, percent):
 
 
 def mean(x):
+    if len(x) == 0:
+        return None
     return sum(i for i in x) / len(x)
 
 
 def std(x):
     m = mean(x)
     n = len(x)
+    if n == 0:
+        return None
     return math.sqrt(sum((nb - m)**2 for nb in x) / n)
 
 
@@ -69,14 +73,17 @@ df = pd.read_csv(sys.argv[1])
 num_cols = get_numeric_cols(df)
 df = df[num_cols]
 for col in num_cols:
+    if col == 'Hogwarts House':
+        continue
     df = df[df[col].notna()]
 
-# print(df.describe())
+print(df.describe(), '\n')
 # get stats unsing numpy
 allFeatures = []
 for col in num_cols:
+    if col == 'Hogwarts House':
+        continue
     data_col = np.array(df[col])
-
     featureXX = []
     featureXX.append(len(data_col))
     featureXX.append(mean(data_col))
@@ -90,7 +97,7 @@ for col in num_cols:
     allFeatures.append(featureXX)
 
 # print accordingly
-print('\n{}{}{}{}{}{}{}{}{}{}{}{}{}{}'.format(''.rjust(10),'Arithmancy'.rjust(15),
+print('{}{}{}{}{}{}{}{}{}{}{}{}{}{}'.format(''.rjust(10),'Arithmancy'.rjust(15),
     'Astronomy'.rjust(15),'Herbology'.rjust(15),'Def. Ag. DA'.rjust(15),
     'Divination'.rjust(15),'Muggle Stud.'.rjust(15),'Anc. Runes'.rjust(15),
     'Hist. of Mag.'.rjust(15),'Transfigur.'.rjust(15),'Potions'.rjust(15),
