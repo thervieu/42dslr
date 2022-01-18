@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+
 def get_numeric_cols(df):
     numeric_cols = []
     for col_name in df.columns:
@@ -12,6 +13,7 @@ def get_numeric_cols(df):
         except ValueError:
             continue
     return numeric_cols[1:]
+
 
 def get_grades(df, house_name, col):
     dfGrades = df[df['Hogwarts House'] == house_name][col]
@@ -26,10 +28,10 @@ for str_ in num_cols:
 
 for col in num_cols:
     plt.figure()
-    plt.hist(get_grades(df, "Gryffindor", col), bins=25, alpha=0.5, label = 'Gry', color = 'r')
-    plt.hist(get_grades(df, "Ravenclaw", col), bins=25, alpha=0.5, label = 'Rav', color = 'b')
-    plt.hist(get_grades(df, "Slytherin", col), bins=25, alpha=0.5, label = 'Sly', color = 'g')
-    plt.hist(get_grades(df, "Hufflepuff", col), bins=25, alpha=0.5, label = 'Huf', color = 'y')
+    plt.hist(get_grades(df, "Gryffindor", col), bins=30, alpha=0.5, label = 'Gry', color = 'r')
+    plt.hist(get_grades(df, "Ravenclaw", col), bins=30, alpha=0.5, label = 'Rav', color = 'b')
+    plt.hist(get_grades(df, "Slytherin", col), bins=30, alpha=0.5, label = 'Sly', color = 'g')
+    plt.hist(get_grades(df, "Hufflepuff", col), bins=30, alpha=0.5, label = 'Huf', color = 'y')
     plt.legend(loc = 'upper right')
     plt.title(col)
 plt.show()

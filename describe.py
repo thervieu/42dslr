@@ -1,43 +1,30 @@
 import sys
+import math
 import numpy as np
 import pandas as pd
+
+
+def percentile(x, percent):
+    x.sort()
+    k = (len(x)-1) * percent
+    f = math.floor(k)
+    c = math.ceil(k)
+    if f == c:
+        return x[int(k)]
+    d0 = x[int(f)] * (c-k)
+    d1 = x[int(c)] * (k-f)
+    return d0+d1
 
 
 def mean(x):
     return sum(i for i in x) / len(x)
 
-def median(x):
-    n = len(x)
-    s = sorted(x)
-    return (s[n//2-1]/2.0+s[n//2]/2.0, s[n//2])[n % 2] if n else None
-
-def median(x):
-    x.sort()
-    n = len(x)
-    if n % 2 == 0:
-        median = (x[(n//2)]+x[(n//2-1)])/2
-    else:
-        median = x[(n//2)]
-    return median
-
-def first_quartile(x):
-    x.sort()
-    return median(x[:len(x)//2])
-
-def third_quartile(x):
-    x.sort()
-    return median(x[len(x)//2:])
-
-
-def percentile(x, p):
-    n = len(x)
-    s = sorted(x)
-    return (s[floor(p/100*n)-1]/2.0+s[floor(p/100*n)]/2.0, s[floor(p/100*n)])[n % 2] if n else None
 
 def std(x):
     m = mean(x)
     n = len(x)
     return math.sqrt(sum((nb - m)**2 for nb in x) / n)
+
 
 def min_(x):
     min_ = x[0]
@@ -46,12 +33,14 @@ def min_(x):
             min_ = elem
     return min_
 
+
 def max_(x):
     max_ = x[0]
     for elem in x:
         if elem > max_:
             max_ = elem
     return max_
+
 
 def get_numeric_cols(df):
     numeric_cols = []
@@ -62,6 +51,7 @@ def get_numeric_cols(df):
         except ValueError:
             continue
     return numeric_cols[1:]
+
 
 # check arg
 if len(sys.argv) != 2:
@@ -77,22 +67,27 @@ df = pd.read_csv(sys.argv[1])
 
 # remove lines where a column is nan
 num_cols = get_numeric_cols(df)
+df = df[num_cols]
 for str_ in num_cols:
     df = df[df[str_].notna()]
 
 # get stats unsing numpy
 allFeatures = []
+
 for str_ in num_cols:
     featureXX = []
     getMyData = df[str_]
-    getMyData = list(getMyData)
+    print(getMyData.describe())
+    getMyData = np.array(getMyData)
+
+
     featureXX.append(len(getMyData))
     featureXX.append(mean(getMyData))
     featureXX.append(std(getMyData))
     featureXX.append(min_(getMyData))
-    featureXX.append(first_quartile(getMyData))
-    featureXX.append(median(getMyData))
-    featureXX.append(third_quartile(getMyData))
+    featureXX.append(percentile(getMyData, 0.25))
+    featureXX.append(percentile(getMyData, 0.5))
+    featureXX.append(percentile(getMyData, 0.75))
     featureXX.append(max_(getMyData))
     allFeatures.append(featureXX)
 
