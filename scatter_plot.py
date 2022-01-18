@@ -37,11 +37,11 @@ df = df[['Astronomy', 'Defense Against the Dark Arts']]
 for str_ in ['Astronomy', 'Defense Against the Dark Arts']:
     df = df[df[str_].notna()]
 
-print(coef_pearson(np.array(df['Astronomy']), np.array(df['Defense Against the Dark Arts'])))
+print('pearson coef of \'DADG\' and \'Astronomy\' = {}'.format(coef_pearson(np.array(df['Defense Against the Dark Arts']), np.array(df['Astronomy']))))
 
 plt.figure()
-plt.scatter(df['Astronomy'], df['Defense Against the Dark Arts'])
+plt.scatter(df['Defense Against the Dark Arts'], df['Astronomy'])
 plt.title('correlation')
-plt.xlabel('Astronomy')
-plt.ylabel('Defense Against the Dark Arts')
+plt.xlabel('Defense Against the Dark Arts')
+plt.ylabel('Astronomy')
 plt.show()
