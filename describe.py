@@ -1,3 +1,4 @@
+import os
 import sys
 import math
 import numpy as np
@@ -59,10 +60,14 @@ def get_numeric_cols(df):
 
 # check arg
 if len(sys.argv) != 2:
-    print('usage: python <data_set.csv>')
+    print('usage: python <dataset.csv>')
     sys.exit()
 if sys.argv[1].endswith('.csv') is False:
-    print('usage: python <data_set.csv>')
+    print('usage: python <dataset.csv>')
+    sys.exit()
+# check exists
+if os.path.exists(sys.argv[1]) is False:
+    print('please add the dataset.csv')
     sys.exit()
 
 # read file

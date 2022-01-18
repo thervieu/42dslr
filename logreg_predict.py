@@ -1,17 +1,21 @@
 import os
 import sys
-import csv
-import math
 import numpy as np
 import pandas as pd
 from my_logistic_regression import MyLogisticRegression as MyLR
 
-# check arg and weight
-if len(sys.argv) != 2:
-    print('usage: python <data_set.csv>')
+# check args
+if len(sys.argv) != 3:
+    print('usage: python dataset_test.csv weights.csv')
     sys.exit()
-if sys.argv[1].endswith('.csv') is False:
-    print('usage: python <data_set.csv>')
+if sys.argv[1] != 'dataset_test.csv':
+    print('usage: python dataset_test.csv weights.csv')
+    sys.exit()
+if sys.argv[2] != 'weights.csv':
+    print('usage: python dataset_test.csv weights.csv')
+    sys.exit()
+if os.path.exists('dataset_test.csv') is False:
+    print('please add the dataset_test.csv')
     sys.exit()
 if os.path.exists('weights.csv') is False:
     print('please first train the model')
@@ -19,7 +23,7 @@ if os.path.exists('weights.csv') is False:
 
 # get weights
 weights = []
-with open('weights.csv') as file:
+with open(sys.argv[2]) as file:
     lines = file.readlines()
     for line in lines:
         weights.append(np.array(line[:-1].split(',')).reshape(-1, 1))
@@ -35,12 +39,11 @@ if os.path.exists('houses.csv'):
     os.remove('houses.csv')
 f=open('houses.csv','ab')
 
-# get dataset
+# get data
 df = pd.read_csv(sys.argv[1])
 houses = ['Gryffindor','Hufflepuff','Ravenclaw','Slytherin']
 df = df[['Index', 'Astronomy', 'Ancient Runes', 'Herbology', 'Charms']]
 
-# remove lines where a column is nan
 for str_ in ['Index', 'Astronomy', 'Ancient Runes', 'Herbology', 'Charms']:
     df = df[df[str_].notna()]
 

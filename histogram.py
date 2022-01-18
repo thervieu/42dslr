@@ -1,4 +1,4 @@
-import sys
+import os
 import math
 import numpy as np
 import pandas as pd
@@ -39,6 +39,12 @@ def minmax(x):
 def get_grades(df, house_name, col):
     dfGrades = df[df['Hogwarts House'] == house_name][col]
     return dfGrades
+
+
+# check exists
+if os.path.exists('dataset_train.csv') is False:
+    print('please add the dataset_train.csv')
+    sys.exit()
 
 # get data
 df = pd.read_csv('dataset_train.csv')

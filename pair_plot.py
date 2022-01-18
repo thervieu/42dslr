@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -11,6 +12,12 @@ def get_numeric_cols(df):
         except ValueError:
             continue
     return numeric_cols[1:]
+
+
+# check exists
+if os.path.exists('dataset_train.csv') is False:
+    print('please add the dataset_train.csv')
+    sys.exit()
 
 # get data
 df = pd.read_csv('dataset_train.csv')

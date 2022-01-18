@@ -1,4 +1,4 @@
-import sys
+import os
 import math
 import numpy as np
 import pandas as pd
@@ -31,15 +31,21 @@ def minmax(x):
     minimum = np.min(x)
     return (x - minimum) / (maximum - minimum)
 
+# check exists
+if os.path.exists('dataset_train.csv') is False:
+    print('please add the dataset_train.csv')
+    sys.exit()
+
 # get data
 df = pd.read_csv('dataset_train.csv')
 df = df[['Astronomy', 'Defense Against the Dark Arts']]
 for str_ in ['Astronomy', 'Defense Against the Dark Arts']:
     df = df[df[str_].notna()]
 
+# pearson coef (correlation)
 print('pearson coef of \'DADG\' and \'Astronomy\' = {}'.format(coef_pearson(np.array(df['Defense Against the Dark Arts']), np.array(df['Astronomy']))))
 
-plt.figure()
+# print the correlation
 plt.scatter(df['Defense Against the Dark Arts'], df['Astronomy'])
 plt.title('correlation')
 plt.xlabel('Defense Against the Dark Arts')
