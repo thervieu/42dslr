@@ -22,20 +22,26 @@ def coef_pearson(x1, x2):
         sum_ += (x1[i] - m1) * (x2[i] - m2)
     return sum_ / (std_not_div(x1) * std_not_div(x2))
 
+def minmax(x):
+    if isinstance(x, np.ndarray) is False:
+        return None
+    if x.size == 0:
+        return None
+    maximum = np.max(x)
+    minimum = np.min(x)
+    return (x - minimum) / (maximum - minimum)
+
+# get data
 df = pd.read_csv('dataset_train.csv')
-
-# remove lines where a column is nan
 df = df[['Astronomy', 'Defense Against the Dark Arts']]
-
 for str_ in ['Astronomy', 'Defense Against the Dark Arts']:
     df = df[df[str_].notna()]
 
 print(coef_pearson(np.array(df['Astronomy']), np.array(df['Defense Against the Dark Arts'])))
 
-for col in ['Astronomy', 'Defense Against the Dark Arts']:
-    plt.figure()
-    plt.scatter(df['Astronomy'], df['Defense Against the Dark Arts'])
-    plt.title('correlation')
-    plt.xlabel('Astronomy')
-    plt.ylabel('Defense Against the Dark Arts')
+plt.figure()
+plt.scatter(df['Astronomy'], df['Defense Against the Dark Arts'])
+plt.title('correlation')
+plt.xlabel('Astronomy')
+plt.ylabel('Defense Against the Dark Arts')
 plt.show()
