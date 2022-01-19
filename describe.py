@@ -28,7 +28,7 @@ def std(x):
     n = len(x)
     if n == 0:
         return None
-    return math.sqrt(sum((nb - m)**2 for nb in x) / n)
+    return math.sqrt(sum((nb - m)**2 for nb in x) / (n - 1))
 
 
 def min_(x):
